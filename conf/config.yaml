@@ -1,0 +1,7 @@
+defaults:
+  - module: module
+  - logger: mlflow
+  - trainer: trainer
+  - callbacks: callbacks
+  - inference: inference
+  - prepare_data: prepare_data

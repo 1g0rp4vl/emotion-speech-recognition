@@ -1,0 +1,4 @@
+ckpt: model_checkpoints/run_20251226_180824/epoch=14-val_loss=1.7884.ckpt
+onnx_path: ./model.onnx
+dir: ./data/inference
+batch_size: 1

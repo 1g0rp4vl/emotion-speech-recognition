@@ -1,0 +1,13 @@
+data_root: 'data'
+zip_file: '${prepare_data.data_root}/ravdess.zip'
+extract_dir: '${prepare_data.data_root}/ravdess'
+dataset_url: 'https://www.kaggle.com/api/v1/datasets/download/uwrfkaggler/ravdess-emotional-speech-audio'
+emotions_mapping:
+  '01': 'neutral'
+  '02': 'calm'
+  '03': 'happy'
+  '04': 'sad'
+  '05': 'angry'
+  '06': 'fearful'
+  '07': 'disgust'
+  '08': 'surprised'
