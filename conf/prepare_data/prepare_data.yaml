@@ -11,3 +11,4 @@ emotions_mapping:
   '06': 'fearful'
   '07': 'disgust'
   '08': 'surprised'
+use_dvc: true

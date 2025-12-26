@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Ensure model.onnx exists
 if [ ! -f "model.onnx" ]; then
     echo "Error: model.onnx not found in current directory!"
     exit 1

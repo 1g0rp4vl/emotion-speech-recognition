@@ -9,6 +9,7 @@ import pytorch_lightning as pl
 from datamodule import AudioDataModule
 from model import EmotionModel
 from omegaconf import DictConfig
+from prepare_dataset import prepare_data
 
 
 class MetricsPlotterCallback(pl.Callback):
@@ -67,6 +68,15 @@ def main(cfg: DictConfig):
 	Args:
 		cfg (DictConfig): Hydra configuration.
 	"""
+
+	prepare_data(
+		data_root=cfg.prepare_data.data_root,
+		zip_file=cfg.prepare_data.zip_file,
+		dataset_url=cfg.prepare_data.dataset_url,
+		extract_dir=cfg.prepare_data.extract_dir,
+		emotions_mapping=cfg.prepare_data.emotions_mapping,
+		use_dvc=cfg.prepare_data.use_dvc,
+	)
 
 	timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
 	save_dir = f'./{cfg.callbacks.dirpath}/run_{timestamp}/'
