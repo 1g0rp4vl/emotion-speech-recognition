@@ -96,6 +96,7 @@ RAVDESS: https://www.kaggle.com/datasets/uwrfkaggler/ravdess-emotional-speech-au
 *   `conf/logger/mlflow.yaml`: Настройки логгирования в MLflow (URI трекинга, имя эксперимента).
 *   `conf/prepare_data/prepare_data.yaml`: Настройки подготовки датасета (URL, пути, использование DVC).
 
+
 ### Переопределение параметров через CLI
 
 Любой параметр из конфигурационных файлов можно переопределить при запуске скрипта из командной строки.
@@ -144,13 +145,13 @@ pre-commit run --all-files
 
 ```
 # Тренировка модели
-# Здесь важно обратить внимание, что поскольку хранилище dvc у меня локальное, то чтобы пользоваться репозиторием, нужно скачать датасет самостоятельно, это можно сделать с помощью (по умолчанию, train.py уже скачивает датасет, но если нужно скачать его отдельно, то можно использовать prepare_dataset.py), но важно не забыть изменить параметр use_dvc на False в конфиге conf/prepare_data/prepare_data.yaml
+# Здесь важно обратить внимание, что поскольку хранилище dvc у меня локальное, то чтобы пользоваться репозиторием, нужно скачать датасет самостоятельно, это можно сделать с помощью следующей команды (по умолчанию, train.py уже скачивает датасет, но если нужно скачать его отдельно, то можно использовать prepare_dataset.py), но важно не забыть изменить параметр use_dvc на False в конфиге conf/prepare_data/prepare_data.yaml
 uv run ./emotion_speech_recognition/prepare_dataset.py
 
 Для логгирования в MLflow, нужно запустить MLflow сервер (если он не был запущен ранее):
 mlflow server -p 8080
 
-# После чего можно запускать тренировку модели (порт и URI сервера MLflow можно изменить в конфигах)
+# После чего можно запускать тренировку модели (порт и URI сервера MLflow можно изменить в conf/logger/mlflow.yaml, а параметры тренировки в conf/module/module.yaml и conf/trainer/trainer.yaml)
 uv run ./emotion_speech_recognition/train.py
 ```
 
@@ -163,7 +164,7 @@ uv run ./emotion_speech_recognition/train.py
 Перед тем, как делать все шаги далее нужно произвести обучение и соответствующий чекпоинт модели должен быть положен в параметр cfg.inference.ckpt в конфиге conf/inference/inference.yaml
 
 ```
-# Экспорт в ONNX
+# Экспорт в ONNX (путь сохраняемой модели можно изменить в конфиге conf/inference/inference.yaml)
 uv run ./emotion_speech_recognition/export_to_onnx.py
 ```
 
@@ -174,7 +175,7 @@ uv run ./emotion_speech_recognition/export_to_onnx.py
 
 ## Inference server
 
-ONNX Runtime
+ONNX Runtime (можно конфигурировать в conf/inference/inference.yaml)
 
 ```
 # Запуск сервера инференса (этот inference_server.py использует ONNX Runtime)
@@ -201,4 +202,13 @@ MLFLOW_TRACKING_URI={mlflow_server_tracking_uri} mlflow models serve -m models:/
 ```
 # Запуск клиента инференса
 uv run ./emotion_speech_recognition/inference_client.py +file_path="path/to/audio/file.wav"
+```
+
+## Inference script
+
+Для запуска модели на аудиофайле с помощью скрипта инференса, выполните команду:
+
+```
+Этот скрипт использует Torch Runtime и запускается на файлах из папки data/inference (свои файлы можно положить туда, папку можно поменять в conf/inference/inference.yaml), результаты сохраняет в папку predictions.
+./emotion_speech_recognition/inference.py
 ```
