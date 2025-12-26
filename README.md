@@ -154,6 +154,10 @@ mlflow server -p 8080
 uv run ./emotion_speech_recognition/train.py
 ```
 
+## Plots
+
+В папке plots будут сохранены графики метрик обучения и валидации.
+
 ## Production preparation
 
 Перед тем, как делать все шаги далее нужно произвести обучение и соответствующий чекпоинт модели должен быть положен в параметр cfg.inference.ckpt в конфиге conf/inference/inference.yaml
